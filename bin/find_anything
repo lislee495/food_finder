@@ -1,3 +1,5 @@
-require_relative '../lib/food_finder'
+#!/usr/bin/env ruby
+
+require_relative '../lib/find_anything'
 
 FindAnything::CLI.new.call

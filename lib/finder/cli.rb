@@ -44,5 +44,13 @@ class FindAnything::CLI
     end
   end
 
-
+  def print_item(item)
+    puts ""
+    puts "----------- #{item.name.titleize}-----------"
+    puts ""
+    puts "Location:            #{item.location}"
+    puts "Contact:             #{item.contact}"
+    puts "Price:               #{item.price}"
+    puts "Categories:          #{item.categories}"
+  end
 end

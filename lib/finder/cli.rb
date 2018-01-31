@@ -1,7 +1,7 @@
 class FindAnything::CLI
 
   def call
-    puts "Welcome to Find Anything! Where you can quickly find anything you want near you"
+    puts "Welcome to Find Anything! Where you can quickly FindAnything you want near you"
     start
   end
 
@@ -10,55 +10,39 @@ class FindAnything::CLI
     puts "What's your zipcode?"
     zipcode = gets.strip.to_i
     puts "What do you want to find?"
-    search_item = gets.strip.to_i
+    search_item = gets.strip
     FindAnything::Scraper.new.make_items(search_item, zipcode)
+    last_ten = FindAnything::Item.all.slice(-9)
+    print_items(last_ten)
 
-    
-    puts ""
-    puts "What restaurant would you like more information on?"
-    input = gets.strip
-
-    restaurant = WorldsBestRestaurants::Restaurant.find(input.to_i)
-
-    print_restaurant(restaurant)
-
-    puts ""
-    puts "Would you like to see another restaurant? Enter Y or N"
-
-    input = gets.strip.downcase
-    if input == "y"
-      start
+    puts "Would you like to see more info about one of these? Enter its name, or No."
+    more_info = gets.strip.downcase
+    if moreInfo != "no"
+      specific_item = FindAnything::Item.find(name)
+      print_item(specific_item)
     else
+      puts "Would you like to search for something else? Enter Yes or No."
+      restart_input = gets.strip.downcase
+      if restart_input == "yes"
+        start
+      else
+        puts ""
+        puts "Thank you for using this gem!"
+        puts "Hope you FindAnything again."
+        exit
+      end
+    end
+  end
+
+  def print_items(itemsArray)
+    itemsArray.each |item| do
       puts ""
-      puts "Thankyou! Have a great day!"
-      exit
+      puts "----------- #{item.name.titleize}-----------"
+      puts ""
+      puts "Location:           #{item.location}"
+      puts "Contact:            #{item.contact}"
     end
   end
 
-  def print_restaurant(restaurant)
-    puts ""
-    puts "----------- #{restaurant.name} - #{restaurant.position} -----------"
-    puts ""
-    puts "Location:           #{restaurant.location}"
-    puts "Head Chef:          #{restaurant.head_chef}"
-    puts "Style of Food:      #{restaurant.food_style}"
-    puts "Standout Dish:      #{restaurant.best_dish}"
-    puts "Contact:            #{restaurant.contact}"
-    puts "Website:            #{restaurant.website_url}"
-    puts ""
-    puts "---------------Description--------------"
-    puts ""
-    puts "#{restaurant.description}"
-    puts ""
-  end
-
-  def print_restaurants(from_number)
-    puts ""
-    puts "---------- Restaurants #{from_number} - #{from_number+9} ----------"
-    puts ""
-    WorldsBestRestaurants::Restaurant.all[from_number-1, 10].each.with_index(from_number) do |restaurant, index|
-      puts "#{index}. #{restaurant.name} - #{restaurant.location}"
-    end
-  end
 
 end

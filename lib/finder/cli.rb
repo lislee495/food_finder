@@ -1,4 +1,4 @@
-class FindAnything::CLI
+class RecipeFinder::CLI
 
   def call
     puts "Welcome to Find Anything! Where you can quickly FindAnything you want near you"
@@ -7,18 +7,16 @@ class FindAnything::CLI
 
   def start
     puts ""
-    puts "What's your zipcode?"
-    zipcode = gets.strip.to_i
-    puts "What do you want to find?"
+    puts "What are you looking for?"
     search_item = gets.strip
-    FindAnything::Scraper.new.make_items(search_item, zipcode)
-    last_ten = FindAnything::Item.all.slice(-9)
+    RecipeFinder::Scraper.new.make_items(search_item)
+    last_ten = RecipeFinder::Dish.all.slice(-9)
     print_items(last_ten)
 
     puts "Would you like to see more info about one of these? Enter its name, or No."
     more_info = gets.strip.downcase
     if moreInfo != "no"
-      specific_item = FindAnything::Item.find(name)
+      specific_item = RecipeFinder::Dish.find_by_name(name)
       print_item(specific_item)
     else
       puts "Would you like to search for something else? Enter Yes or No."
@@ -35,7 +33,7 @@ class FindAnything::CLI
   end
 
   def print_items(itemsArray)
-    itemsArray.each |item| do
+    itemsArray.each do |item|
       puts ""
       puts "----------- #{item.name.titleize}-----------"
       puts ""

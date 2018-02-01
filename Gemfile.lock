@@ -1,11 +1,28 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    aws-sdk-v1 (1.67.0)
+      json (~> 1.4)
+      nokogiri (~> 1)
+    coderay (1.1.2)
+    json (1.8.6)
+    method_source (0.9.0)
+    mini_portile2 (2.3.0)
+    nokogiri (1.8.2)
+      mini_portile2 (~> 2.3.0)
+    open-uri-s3 (1.6.0)
+      aws-sdk-v1
+    pry (0.11.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  nokogiri
+  open-uri-s3
+  pry
 
 BUNDLED WITH
-   1.16.0
+   1.16.1

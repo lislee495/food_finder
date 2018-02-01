@@ -1,4 +1,4 @@
-class FindAnything::Item
+class RecipeFinder::Dish
   attr_accessor :name, :location, :categories, :price, :contact
 
   @@all = []
@@ -26,7 +26,7 @@ class FindAnything::Item
     @@all
   end
 
-  def self.find(name)
+  def self.find_by_name(name)
     self.all.detect {|item| item.name == name}
   end
 end

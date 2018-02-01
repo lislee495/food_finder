@@ -10,12 +10,12 @@ class RecipeFinder::CLI
     puts "What are you looking for?"
     search_item = gets.strip
     RecipeFinder::Scraper.new.make_items(search_item)
-    last_ten = RecipeFinder::Dish.all.slice(-9)
+    last_ten = RecipeFinder::Dish.all
     print_items(last_ten)
 
-    puts "Would you like to see more info about one of these? Enter its name, or No."
+    puts "Would you like to see more info about one of these? Enter its name, or no."
     more_info = gets.strip.downcase
-    if moreInfo != "no"
+    if more_info != "no"
       specific_item = RecipeFinder::Dish.find_by_name(name)
       print_item(specific_item)
     else
@@ -26,29 +26,29 @@ class RecipeFinder::CLI
       else
         puts ""
         puts "Thank you for using this gem!"
-        puts "Hope you FindAnything again."
+        puts "Hope you RecipeFinder again."
         exit
       end
     end
   end
 
   def print_items(itemsArray)
-    itemsArray.each do |item|
+    itemsArray.each do |dish|
       puts ""
-      puts "----------- #{item.name.titleize}-----------"
+      puts "----------- #{dish.name}-----------"
       puts ""
-      puts "Location:           #{item.location}"
-      puts "Contact:            #{item.contact}"
+      puts "Stars:           #{dish.stars}"
+      puts "Time:             #{dish.time}"
+      puts "URL:             #{dish.url}"
     end
   end
 
-  def print_item(item)
+  def print_item(dish)
     puts ""
-    puts "----------- #{item.name.titleize}-----------"
+    puts "----------- #{dish.name}-----------"
     puts ""
-    puts "Location:            #{item.location}"
-    puts "Contact:             #{item.contact}"
-    puts "Price:               #{item.price}"
-    puts "Categories:          #{item.categories}"
+    puts "Stars:            #{dish.stars}"
+    puts "Time:      #{dish.time}"
+    puts "URL:              #{dish.url}"
   end
 end

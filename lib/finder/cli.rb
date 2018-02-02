@@ -10,7 +10,7 @@ class RecipeFinder::CLI
     puts "What are you looking for?"
     search_item = gets.strip
     RecipeFinder::Scraper.new.make_items(search_item)
-    show_list(first)
+    show_list("first")
   end
 
   def print_items(itemsArray)
@@ -68,13 +68,13 @@ def show_list(num)
     if next_action == "back"
       ending
     else
-      show_list(first)
+      show_list("first")
     end
   else
     puts "Wants to see more search results? Enter yes or no."
     more_results = gets.strip
     if more_results != "no"
-      show_list(last)
+      show_list("last")
     else
       puts "Would you like to search for something else? Enter yes or no."
       restart_input = gets.strip

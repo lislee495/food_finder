@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require "bundler/setup"
+require "recipe_finder"
+
+require "irb"
+IRB.start

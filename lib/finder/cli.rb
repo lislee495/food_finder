@@ -16,7 +16,7 @@ class RecipeFinder::CLI
   def print_items(itemsArray)
     itemsArray.each do |dish|
       puts ""
-      puts "#{itemsArray.index(dish) + 1}.----------- #{dish.name} -----------"
+      puts "#{RecipeFinder::Dish.all.index(dish) + 1}.----------- #{dish.name} -----------"
       puts ""
       puts "Stars:           #{dish.stars.to_f.round(2)}"
       puts "Description:     #{dish.description}"
@@ -47,13 +47,6 @@ class RecipeFinder::CLI
   end
 end
 
-def ending
-  puts ""
-  puts "Thank you for using this gem!"
-  puts "Hope you RecipeFinder again."
-  exit
-end
-
 def show_list(num)
   five = RecipeFinder::Dish.show(num)
   print_items(five)
@@ -65,25 +58,41 @@ def show_list(num)
     RecipeFinder::Scraper.new.more_info(specific_item)
     print_item(specific_item)
     next_action = gets.strip
-    if next_action == "back"
+    if next_action == "exit"
       ending
     else
-      show_list("first")
+      show_list(num)
     end
   else
-    puts "Wants to see more search results? Enter yes or no."
-    more_results = gets.strip
-    if more_results != "no"
-      show_list("last")
-    else
-      puts "Would you like to search for something else? Enter yes or no."
-      restart_input = gets.strip
-      if restart_input == "yes"
-        RecipeFinder::Dish.reset
-        start
+    if (num == "first")
+      puts "Wants to see more search results? Enter yes or no."
+      more_results = gets.strip
+      if more_results != "no"
+        show_list("next")
       else
-        ending
+        repeat_end
       end
+    else
+      repeat_end
     end
   end
+end
+
+def repeat_end
+  puts "Would you like to search for something else? Enter yes or no."
+  restart_input = gets.strip
+  if restart_input == "yes"
+    RecipeFinder::Dish.reset
+    start
+  else
+    ending
+  end
+end
+
+
+def ending
+  puts ""
+  puts "Thank you for using this gem!"
+  puts "Hope you RecipeFinder again."
+  exit
 end

@@ -43,9 +43,9 @@ class RecipeFinder::Dish
 
   def self.show(place)
     if place == "first"
-      self.all[0..7]
-    else
-      self.all[7..(self.all.length - 1)]
+      self.all[0..9]
+    elsif place == "next"
+      self.all[10..(self.all.length-1)]
     end
   end
 end

@@ -40,4 +40,12 @@ class RecipeFinder::Dish
     page.css(".recipe-directions__list--item").each {|ele| self.instructions << ele.text}
     page.css(".prepTime__item time").each {|ele| self.time << ele["datetime"]}
   end
+
+  def self.show(place)
+    if place == "first"
+      self.all[0..5]
+    else
+      self.all[6..(self.all.length - 1)]
+    end
+  end
 end

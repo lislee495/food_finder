@@ -10,36 +10,7 @@ class RecipeFinder::CLI
     puts "What are you looking for?"
     search_item = gets.strip
     RecipeFinder::Scraper.new.make_items(search_item)
-    last_ten = RecipeFinder::Dish.all[0..5]
-    print_items(last_ten)
-    puts "Would you like to see more info about one of these? Enter its number, or no."
-    more_info = gets.strip
-    if more_info != "no"
-      index = more_info.to_i
-      specific_item = RecipeFinder::Dish.find(index)
-      RecipeFinder::Scraper.new.more_info(specific_item)
-      print_item(specific_item)
-
-    else
-      puts "Wants to see more search results? Enter yes or no."
-      more_results = gets.strip
-      if more_results != "no"
-        next_ten = RecipeFinder::Dish.all[5..10]
-        print_items(next_ten)
-      else
-        puts "Would you like to search for something else? Enter Yes or No."
-        restart_input = gets.strip.downcase
-        if restart_input == "yes"
-          RecipeFinder::Dish.reset
-          start
-        else
-          puts ""
-          puts "Thank you for using this gem!"
-          puts "Hope you RecipeFinder again."
-          exit
-        end
-      end
-    end
+    show_list(first)
   end
 
   def print_items(itemsArray)
@@ -73,5 +44,46 @@ class RecipeFinder::CLI
       puts "#{ele}"
     end
     puts "To go back, type 'back'. To exit, type 'exit'"
+  end
+end
+
+def ending
+  puts ""
+  puts "Thank you for using this gem!"
+  puts "Hope you RecipeFinder again."
+  exit
+end
+
+def show_list(num)
+  five = RecipeFinder::Dish.show(num)
+  print_items(five)
+  puts "Would you like to see more info about one of these? Enter its number, or no."
+  more_info = gets.strip
+  if more_info != "no"
+    index = more_info.to_i
+    specific_item = RecipeFinder::Dish.find(index)
+    RecipeFinder::Scraper.new.more_info(specific_item)
+    print_item(specific_item)
+    next_action = gets.strip
+    if next_action == "back"
+      ending
+    else
+      show_list(first)
+    end
+  else
+    puts "Wants to see more search results? Enter yes or no."
+    more_results = gets.strip
+    if more_results != "no"
+      show_list(last)
+    else
+      puts "Would you like to search for something else? Enter yes or no."
+      restart_input = gets.strip
+      if restart_input == "yes"
+        RecipeFinder::Dish.reset
+        start
+      else
+        ending
+      end
+    end
   end
 end

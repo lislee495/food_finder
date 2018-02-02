@@ -1,5 +1,5 @@
 class RecipeFinder::Dish
-  attr_accessor :name, :stars, :description, :url, :ingredients, :instructions
+  attr_accessor :name, :stars, :description, :url, :ingredients, :instructions, :time
 
   @@all = []
 
@@ -33,7 +33,11 @@ class RecipeFinder::Dish
   end
 
   def add_info(page)
-    page.css("recipe-ingred_txt added").each {|ele| self.ingredients << ele.text}
-    page.css("recipe-directions__list--item").each {|ele| self.instructions << ele.text}
+    self.ingredients = []
+    self.instructions = []
+    self.time = []
+    page.css(".recipe-ingred_txt.added")[0..-3].each {|ele| self.ingredients << ele.text}
+    page.css(".recipe-directions__list--item").each {|ele| self.instructions << ele.text}
+    page.css(".prepTime__item time").each {|ele| self.time << ele["datetime"]}
   end
 end

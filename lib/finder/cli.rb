@@ -17,8 +17,9 @@ class RecipeFinder::CLI
     if more_info != "no"
       index = more_info.to_i
       specific_item = RecipeFinder::Dish.find(index)
-      RecipeFinder::Scraper.more_info(specific_item)
+      RecipeFinder::Scraper.new.more_info(specific_item)
       print_item(specific_item)
+
     else
       puts "Wants to see more search results? Enter yes or no."
       more_results = gets.strip
@@ -54,16 +55,23 @@ class RecipeFinder::CLI
 
   def print_item(dish)
     puts ""
-    puts "----------- #{dish.name}-----------"
+    puts "----------- #{dish.name} -----------"
     puts ""
-    puts "Stars:            #{dish.stars}"
+    puts "Stars:            #{dish.stars.to_f.round(2)}"
     puts "Description:      #{dish.description}"
     puts "URL:              #{dish.url}"
-    puts "Ingredients: #{dish.ingredients.join(" , ")}"
+    puts ""
+    puts "Ingredients: #{dish.ingredients.join(", ")}"
+    puts ""
+    puts "Prep Time: #{dish.time[0].slice(2, dish.time[0].length)}"
+    puts "Cook Time: #{dish.time[1].slice(2, dish.time[1].length)}"
+    puts "Ready in:  #{dish.time[2].slice(2, dish.time[2].length)}"
+    puts ""
     puts "Instructions:"
     dish.instructions.each do |ele|
       puts ""
       puts "#{ele}"
     end
+    puts "To go back, type 'back'. To exit, type 'exit'"
   end
 end

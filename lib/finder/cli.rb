@@ -10,24 +10,33 @@ class RecipeFinder::CLI
     puts "What are you looking for?"
     search_item = gets.strip
     RecipeFinder::Scraper.new.make_items(search_item)
-    last_ten = RecipeFinder::Dish.all
+    last_ten = RecipeFinder::Dish.all[0..5]
     print_items(last_ten)
-
-    puts "Would you like to see more info about one of these? Enter its name, or no."
-    more_info = gets.strip.downcase
+    puts "Would you like to see more info about one of these? Enter its number, or no."
+    more_info = gets.strip
     if more_info != "no"
-      specific_item = RecipeFinder::Dish.find_by_name(name)
+      index = more_info.to_i
+      specific_item = RecipeFinder::Dish.find(index)
+      RecipeFinder::Scraper.more_info(specific_item)
       print_item(specific_item)
     else
-      puts "Would you like to search for something else? Enter Yes or No."
-      restart_input = gets.strip.downcase
-      if restart_input == "yes"
-        start
+      puts "Wants to see more search results? Enter yes or no."
+      more_results = gets.strip
+      if more_results != "no"
+        next_ten = RecipeFinder::Dish.all[5..10]
+        print_items(next_ten)
       else
-        puts ""
-        puts "Thank you for using this gem!"
-        puts "Hope you RecipeFinder again."
-        exit
+        puts "Would you like to search for something else? Enter Yes or No."
+        restart_input = gets.strip.downcase
+        if restart_input == "yes"
+          RecipeFinder::Dish.reset
+          start
+        else
+          puts ""
+          puts "Thank you for using this gem!"
+          puts "Hope you RecipeFinder again."
+          exit
+        end
       end
     end
   end
@@ -35,10 +44,10 @@ class RecipeFinder::CLI
   def print_items(itemsArray)
     itemsArray.each do |dish|
       puts ""
-      puts "----------- #{dish.name}-----------"
+      puts "#{itemsArray.index(dish) + 1}.----------- #{dish.name} -----------"
       puts ""
-      puts "Stars:           #{dish.stars}"
-      puts "Time:             #{dish.time}"
+      puts "Stars:           #{dish.stars.to_f.round(2)}"
+      puts "Description:     #{dish.description}"
       puts "URL:             #{dish.url}"
     end
   end
@@ -48,7 +57,13 @@ class RecipeFinder::CLI
     puts "----------- #{dish.name}-----------"
     puts ""
     puts "Stars:            #{dish.stars}"
-    puts "Time:      #{dish.time}"
+    puts "Description:      #{dish.description}"
     puts "URL:              #{dish.url}"
+    puts "Ingredients: #{dish.ingredients.join(" , ")}"
+    puts "Instructions:"
+    dish.instructions.each do |ele|
+      puts ""
+      puts "#{ele}"
+    end
   end
 end

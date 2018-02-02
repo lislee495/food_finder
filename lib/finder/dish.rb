@@ -1,22 +1,21 @@
 class RecipeFinder::Dish
-  attr_accessor :name, :stars, :time, :url
+  attr_accessor :name, :stars, :description, :url, :ingredients, :instructions
 
   @@all = []
 
   def self.new_from_index_page(search_terms)
-    puts search_terms
     self.new(
-      search_terms.css(".title a").text,
-      search_terms.css(".fd-rating-percent").xpath('@style').text,
-      search_terms.css(".cook-time").text,
-      search_terms.css(".title a").xpath('@href').text,
+      search_terms.css(".grid-col__h3.grid-col__h3--recipe-grid a").text.strip,
+      search_terms.at_css(".grid-col__ratings span")["data-ratingstars"],
+      search_terms.css(".rec-card__description").text,
+      search_terms.at_css(".grid-col__h3.grid-col__h3--recipe-grid a")["href"]
       )
   end
 
-  def initialize(name, stars=nil, time, url)
+  def initialize(name, stars=nil, description, url)
     @name = name
     @stars = stars
-    @time = time
+    @description = description
     @url = url
     @@all << self
   end
@@ -25,7 +24,16 @@ class RecipeFinder::Dish
     @@all
   end
 
-  def self.find_by_name(name)
-    self.all.detect {|dish| dish.name == name}
+  def self.find(id)
+    self.all[id - 1]
+  end
+
+  def self.reset
+    @@all = []
+  end
+
+  def add_info(page)
+    page.css("recipe-ingred_txt added").each {|ele| self.ingredients << ele.text}
+    page.css("recipe-directions__list--item").each {|ele| self.instructions << ele.text}
   end
 end

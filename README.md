@@ -1,4 +1,4 @@
-# Recipe::Finder::Cli::Gem
+# Recipe::Finder::CLI::Gem
 
 ## About
 
@@ -22,3 +22,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/snicke
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+You can view the license [here](https://github.com/snickers495/food_finder/blob/master/LICENSE.md).

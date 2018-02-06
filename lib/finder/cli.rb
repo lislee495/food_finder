@@ -93,6 +93,6 @@ end
 def ending
   puts ""
   puts "Thank you for using this gem!"
-  puts "Hope you RecipeFinder again."
+  puts "Hope you use RecipeFinder again."
   exit
 end

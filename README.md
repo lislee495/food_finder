@@ -10,7 +10,7 @@ Download this gem from https://github.com/snickers495/food_finder
 
 ## Development
 
-After checking out the repo, run `bundle bin/setup` to install dependencies.
+After checking out the repo, run `bin/setup` to install dependencies.
 
 To run the development version of the CLI run `bin/recipe-finder`.
 

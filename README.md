@@ -1,5 +1,7 @@
 # Recipe::Finder::CLI::Gem
 
+_To view a demo, visit this [video](https://youtu.be/Z9VYeK6-7ro)_
+
 ## About
 
 This is a command-line interface gem for quickly searching recipes from your command-line. This gem scrapes from AllRecipes.com to get a list of the most popular recipes from the results page. The user of this gem can look for any kind of food style or ingredient to find relevant recipes. Once the list of recipe results have been returned, the user can also select a recipe for a more detailed view, looking at in-depth information relating to the recipe's ingredients, instructions, and cooking time. Once they're done with one category, the user can then look for different categories, or exit the gem altogether.
